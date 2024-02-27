@@ -139,8 +139,8 @@ class ProjectorMQTTDevice extends IPSModule
             $this->SendDebug('MQTT Subtopic Processing', "Hue: $hexHue Saturation: $hexSaturation Value: $hexValue", 0);
 
             $hue = hexdec($hexHue);
-            $sat = hexdec($hexSaturation);
-            $val = hexdec($hexValue);
+            $sat = hexdec($hexSaturation) / 10;
+            $val = hexdec($hexValue) / 10;
 
             $rgb = array(0,0,0);
             //calc rgb for 100% SV, go +1 for BR-range
