@@ -347,9 +347,9 @@ class ProjectorMQTTDevice extends IPSModule
 
         $decHSV = $this->RGBtoHSV($decRed, $decBlue, $decGreen);
 
-        $hexH = sprintf('%04x', $decHSV['H']);
-        $hexS = sprintf('%04x', $decHSV['S']);
-        $hexV = sprintf('%04x', $decHSV['V']);
+        $hexH = sprintf('%04x', $decHSV[0]);
+        $hexS = sprintf('%04x', $decHSV[1]);
+        $hexV = sprintf('%04x', $decHSV[2]);
 
         $colorTuya = $hexH . $hexS . $hexV;
 
