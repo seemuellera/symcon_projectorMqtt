@@ -177,8 +177,8 @@ class ProjectorMQTTDevice extends IPSModule
         switch ($ident) {
 		
 			case "State":
-				$this->MqttSet('dps/20/command', $value);
-				SetValue($this->GetIDForIdent($Ident), $value);
+				$this->MqttSet('dps/20/command', string($value));
+				SetValue($this->GetIDForIdent($ident), $value);
 				break;
 			default:
 				$this->LogMessage("Invalid Ident: $ident", KL_ERROR);
@@ -193,8 +193,8 @@ class ProjectorMQTTDevice extends IPSModule
         $Data['Retain'] = false;
         $Data['Topic'] = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/' . $topic;
         $Data['Payload'] = $payload;
-        $this->SendDebug(__FUNCTION__ . ' Topic', $Data['Topic'], 0);
-        $this->SendDebug(__FUNCTION__ . ' Payload', $Data['Payload'], 0);
+        $this->SendDebug('MQTT SEND Topic', $Data['Topic'], 0);
+        $this->SendDebug('MQTT SEND Payload', $Data['Payload'], 0);
         $this->SendDataToParent($Data);
     }
 }
