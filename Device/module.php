@@ -17,7 +17,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterPropertyString('MQTTBaseTopic', 'tuya');
         $this->RegisterPropertyString('MQTTTopic', '');
         
-        $this->RegisterAttributeString('TopicLookupTable');
+        $this->RegisterAttributeString('TopicLookupTable', '');
 
         $this->RegisterVariableBoolean("State", "State");
         $this->RegisterVariableBoolean("StateNebula", "Nebula");
