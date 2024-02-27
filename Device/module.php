@@ -43,6 +43,10 @@ class ProjectorMQTTDevice extends IPSModule
         $this->SetReceiveDataFilter('.*' . $Filter . '.*');
 
         $this->EnableAction('State');
+        $this->EnableAction('StateNebula');
+        $this->EnableAction('StateStars');
+        $this->EnableAction('IntensityStars');
+        $this->EnableAction('IntensityRotation');
                 
         if (($this->HasActiveParent()) && (IPS_GetKernelRunlevel() == KR_READY)) {
             
@@ -187,6 +191,36 @@ class ProjectorMQTTDevice extends IPSModule
                 }
 				SetValue($this->GetIDForIdent($ident), $value);
 				break;
+            case "StateNebula":
+                if ($value) {
+                
+                    $this->MqttSet('dps/103/command', 'true');
+                }
+                else {
+
+                    $this->MqttSet('dps/103/command', 'false');
+                }
+                SetValue($this->GetIDForIdent($ident), $value);
+                break;
+            case "StateStars":
+                if ($value) {
+                
+                    $this->MqttSet('dps/102/command', 'true');
+                }
+                else {
+
+                    $this->MqttSet('dps/102/command', 'false');
+                }
+                SetValue($this->GetIDForIdent($ident), $value);
+                break;
+            case "IntensityStars":
+                $this->MqttSet('dps/22/command', $value);
+                SetValue($this->GetIDForIdent($ident), $value);
+                break; 
+            case "IntensityRotation":
+                $this->MqttSet('dps/22/command', $value);
+                SetValue($this->GetIDForIdent($ident), $value);
+                break;       
 			default:
 				$this->LogMessage("Invalid Ident: $ident", KL_ERROR);
 		}
