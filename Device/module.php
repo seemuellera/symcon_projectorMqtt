@@ -181,14 +181,7 @@ class ProjectorMQTTDevice extends IPSModule
         switch ($ident) {
 		
 			case "State":
-                if ($value) {
-				
-                    $this->MqttSet('dps/20/command', 'true');
-                }
-                else {
-
-                    $this->MqttSet('dps/20/command', 'false');
-                }
+                $this->MqttSet('dps/20/command', $value);
 				SetValue($this->GetIDForIdent($ident), $value);
 				break;
             case "StateNebula":
@@ -214,11 +207,11 @@ class ProjectorMQTTDevice extends IPSModule
                 SetValue($this->GetIDForIdent($ident), $value);
                 break;
             case "IntensityStars":
-                $this->MqttSet('dps/22/command', (string)$value);
+                $this->MqttSet('dps/22/command', $value * 10);
                 SetValue($this->GetIDForIdent($ident), $value);
                 break; 
             case "IntensityRotation":
-                $this->MqttSet('dps/22/command', (string)$value);
+                $this->MqttSet('dps/22/command', $value * 10);
                 SetValue($this->GetIDForIdent($ident), $value);
                 break;       
 			default:
@@ -233,7 +226,7 @@ class ProjectorMQTTDevice extends IPSModule
         $Data['QualityOfService'] = 0;
         $Data['Retain'] = false;
         $Data['Topic'] = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/' . $topic;
-        $Data['Payload'] = $payload;
+        $Data['Payload'] = (string)$payload;
         $this->SendDebug('MQTT SEND Topic', $Data['Topic'], 0);
         $this->SendDebug('MQTT SEND Payload', $Data['Payload'], 0);
         $this->SendDataToParent(json_encode($Data));
