@@ -16,6 +16,8 @@ class ProjectorMQTTDevice extends IPSModule
         $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
         $this->RegisterPropertyString('MQTTBaseTopic', 'tuya');
         $this->RegisterPropertyString('MQTTTopic', '');
+        
+        $this->RegisterAttributeString('TopicLookupTable');
 
         $this->RegisterVariableBoolean("State", "State");
         $this->RegisterVariableBoolean("StateNebula", "Nebula");
@@ -27,9 +29,19 @@ class ProjectorMQTTDevice extends IPSModule
     {
         //Never delete this line!
         parent::ApplyChanges();
+
         $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
+        
         //Setze Filter für ReceiveData
-        $Filter = preg_quote($this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') );
+        $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic');
+        $Filter = preg_quote($baseTopic);
+
+        $topicLookupTable = Array();
+        $topicLookupTable[$baseTopic . '/status'] = "Online";
+        $topicLookupTable[$baseTopic . '/dps/20/state'] = "State";
+        $topicLookupTable[$baseTopic . '/dps/102/state'] = "StateStars";
+        $topicLookupTable[$baseTopic . '/dps/103/state'] = "StateNebula";
+        $this->WriteAttributeString('TopicLookupTable', json_encode($topicLookupTable));
         
         $this->SendDebug('Filter ', '.*' . $Filter . '.*', 0);
         $this->SetReceiveDataFilter('.*' . $Filter . '.*');
@@ -44,6 +56,32 @@ class ProjectorMQTTDevice extends IPSModule
 
     public function getDeviceInfo()
     {
+        // TODO: MQTT Call to tuya2mqtt to send all data
+        return;
+    }
 
+    public function ReceiveData($JSONString)
+    {
+
+        if (empty($this->ReadPropertyString('MQTTTopic'))) {
+
+            return false;
+        }
+
+        $Buffer = json_decode($JSONString, true);
+
+        $this->SendDebug('MQTT Topic', $Buffer['Topic'], 0);
+        $this->SendDebug('MQTT Payload', $Buffer['Payload'], 0);
+
+        $Payload = json_decode($Buffer['Payload'], true);
+
+        if (is_array($Payload)) {
+
+            $allConfiguredTopics = $this->getConfigTopics();
+            $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/';
+            $subTopic = str_replace($baseTopic, "", $Buffer['Topic']);
+
+            $this->SendDebug('MQTT TOPIC', $subTopic, 0);
+        }
     }
 }
