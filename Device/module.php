@@ -202,6 +202,6 @@ class ProjectorMQTTDevice extends IPSModule
         $Data['Payload'] = $payload;
         $this->SendDebug('MQTT SEND Topic', $Data['Topic'], 0);
         $this->SendDebug('MQTT SEND Payload', $Data['Payload'], 0);
-        $this->SendDataToParent($Data);
+        $this->SendDataToParent(json_encode($Data));
     }
 }
