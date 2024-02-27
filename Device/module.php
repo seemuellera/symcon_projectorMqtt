@@ -22,6 +22,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch");
         $this->RegisterVariableBoolean("Online", "Online", "~Alert");
         $this->RegisterVariableInteger("IntensityStars", "Intensity Stars", "~Intensity.100");
+        $this->RegisterVariableInteger("IntensityRotation", "Intensity Rotation", "~Intensity.100");
     }
 
     public function ApplyChanges()
@@ -114,6 +115,14 @@ class ProjectorMQTTDevice extends IPSModule
 
             $intensity = round($Buffer['Payload'] / 10);
             SetValue($this->GetIdForIdent('IntensityStars'), $intensity);            
+        }
+
+        if ($subTopic == 'dps/101/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Rotation intensity", 0);
+
+            $intensity = round($Buffer['Payload'] / 10);
+            SetValue($this->GetIdForIdent('IntensityRotation'), $intensity);            
         }
     }
 }
