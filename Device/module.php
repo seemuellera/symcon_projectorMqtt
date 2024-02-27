@@ -19,10 +19,10 @@ class ProjectorMQTTDevice extends IPSModule
         
         $this->RegisterAttributeString('TopicLookupTable', '');
 
-        $this->RegisterVariableBoolean("State", "State");
-        $this->RegisterVariableBoolean("StateNebula", "Nebula");
-        $this->RegisterVariableBoolean("StateStars", "Stars");
-        $this->RegisterVariableBoolean("Online", "Online");
+        $this->RegisterVariableBoolean("State", "State", "~Switch");
+        $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch");
+        $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch");
+        $this->RegisterVariableBoolean("Online", "Online", "~Alarm");
     }
 
     public function ApplyChanges()
