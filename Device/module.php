@@ -21,6 +21,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch");
         $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch");
         $this->RegisterVariableBoolean("Online", "Online", "~Alert");
+        $this->RegisterVariableInteger("IntensityStars", "Intensity Stars", "~Intensity.100");
     }
 
     public function ApplyChanges()
@@ -105,6 +106,14 @@ class ProjectorMQTTDevice extends IPSModule
             $this->SendDebug('MQTT Subtopic Processing', "Nebula state", 0);
 
             SetValue($this->GetIdForIdent('StateNebula'), $Buffer['Payload']);            
+        }
+
+        if ($subTopic == 'dps/22/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Laser intensity", 0);
+
+            $intensity = round($Buffer['Payload'] / 10);
+            SetValue($this->GetIdForIdent('IntensityStars'), $intensity);            
         }
     }
 }
