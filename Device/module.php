@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class Zwave2MQTTDevice extends IPSModule
+class ProjectorMQTTDevice extends IPSModule
 {
     public function __construct($InstanceID) {
 		// Diese Zeile nicht löschen
