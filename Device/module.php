@@ -272,6 +272,11 @@ class ProjectorMQTTDevice extends IPSModule
           if ($H>1) $H--; 
        } 
 
+       // Adjusting to required values for tuya
+       $H = $H * 100;
+       $S = $S * 100;
+       $V = $V * 100;
+
        $HSL['H'] = $H; 
        $HSL['S'] = $S; 
        $HSL['V'] = $V; 
