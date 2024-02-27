@@ -181,7 +181,7 @@ class ProjectorMQTTDevice extends IPSModule
         switch ($ident) {
 		
 			case "State":
-                $this->MqttSet('dps/20/command', $value);
+                $this->MqttSet('dps/20/command', $value ? 'true' : 'false');
 				SetValue($this->GetIDForIdent($ident), $value);
 				break;
             case "StateNebula":
@@ -211,7 +211,7 @@ class ProjectorMQTTDevice extends IPSModule
                 SetValue($this->GetIDForIdent($ident), $value);
                 break; 
             case "IntensityRotation":
-                $this->MqttSet('dps/22/command', $value * 10);
+                $this->MqttSet('dps/101/command', $value * 10);
                 SetValue($this->GetIDForIdent($ident), $value);
                 break;       
 			default:
