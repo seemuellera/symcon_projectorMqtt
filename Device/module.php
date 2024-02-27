@@ -17,15 +17,15 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterPropertyString('MQTTBaseTopic', 'tuya');
         $this->RegisterPropertyString('MQTTTopic', '');
 
-        $this->RegisterVariableBoolean("State", "State", "~Switch");
-        $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch");
-        $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch");
-        $this->RegisterVariableBoolean("Online", "Online", "~Alert.Reversed");
-        $this->RegisterVariableInteger("IntensityStars", "Intensity Stars", "~Intensity.100");
-        $this->RegisterVariableInteger("IntensityRotation", "Intensity Rotation", "~Intensity.100");
-        $this->RegisterVariableInteger("IntensityNebula", "Intensity Nebula", "~Intensity.100");
-        $this->RegisterVariableInteger("SaturationNebula", "SaturationNebula", "~Intensity.100");
-        $this->RegisterVariableInteger("ColorNebula", "Color Nebula", "~HexColor");
+        $this->RegisterVariableBoolean("State", "State", "~Switch",1);
+        $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch",5);
+        $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch",2);
+        $this->RegisterVariableBoolean("Online", "Online", "~Alert.Reversed",0);
+        $this->RegisterVariableInteger("IntensityStars", "Intensity Stars", "~Intensity.100",3);
+        $this->RegisterVariableInteger("IntensityRotation", "Intensity Rotation", "~Intensity.100",4);
+        $this->RegisterVariableInteger("IntensityNebula", "Intensity Nebula", "~Intensity.100",7);
+        $this->RegisterVariableInteger("SaturationNebula", "SaturationNebula", "~Intensity.100",8);
+        $this->RegisterVariableInteger("ColorNebula", "Color Nebula", "~HexColor",6);
     }
 
     public function ApplyChanges()
