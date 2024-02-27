@@ -16,8 +16,6 @@ class ProjectorMQTTDevice extends IPSModule
         $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
         $this->RegisterPropertyString('MQTTBaseTopic', 'tuya');
         $this->RegisterPropertyString('MQTTTopic', '');
-        
-        $this->RegisterAttributeString('TopicLookupTable', '');
 
         $this->RegisterVariableBoolean("State", "State", "~Switch");
         $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch");
@@ -35,13 +33,6 @@ class ProjectorMQTTDevice extends IPSModule
         //Setze Filter für ReceiveData
         $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic');
         $Filter = preg_quote($baseTopic);
-
-        $topicLookupTable = Array();
-        $topicLookupTable[$baseTopic . '/status'] = "Online";
-        $topicLookupTable[$baseTopic . '/dps/20/state'] = "State";
-        $topicLookupTable[$baseTopic . '/dps/102/state'] = "StateStars";
-        $topicLookupTable[$baseTopic . '/dps/103/state'] = "StateNebula";
-        $this->WriteAttributeString('TopicLookupTable', json_encode($topicLookupTable));
         
         $this->SendDebug('Filter ', '.*' . $Filter . '.*', 0);
         $this->SetReceiveDataFilter('.*' . $Filter . '.*');
@@ -73,13 +64,47 @@ class ProjectorMQTTDevice extends IPSModule
         $this->SendDebug('MQTT Topic', $Buffer['Topic'], 0);
         $this->SendDebug('MQTT Payload', $Buffer['Payload'], 0);
 
-        $topicLookupTable = json_decode($this->ReadAttributeString('TopicLookupTable'), true);
-        if (array_key_exists($Buffer['Topic'], $topicLookupTable)) {
-            
-            $variableIdent = $topicLookupTable[$Buffer['Topic']];
-            $this->SendDebug('Target variable ident', $variableIdent, 0);
+        $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/';
+        $subTopic = str_replace($baseTopic, "", $Buffer['Topic']);
+        $this->SendDebug('MQTT Subtopic', $subTopic, 0);
 
-            SetValue($this->GetIdForIdent($variableIdent), $Buffer['Payload']);
+        if ($subTopic == 'status') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "online status", 0);
+
+            if ($Buffer['Payload'] == 'online') {
+
+                SetValue($this->GetIdForIdent('Online'), true);
+                $this->SendDebug('MQTT Subtopic Processing', "is online", 0);
+            }
+            else {
+
+                SetValue($this->GetIdForIdent('Online'), false);
+                $this->SendDebug('MQTT Subtopic Processing', "is offline", 0);
+            }
+        }
+
+        if ($subTopic == 'dps/20/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Global Device state", 0);
+
+            SetValue($this->GetIdForIdent('State'), $Buffer['Payload']);
+
+            
+        }
+
+        if ($subTopic == 'dps/102/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Laser state", 0);
+
+            SetValue($this->GetIdForIdent('StateStars'), $Buffer['Payload']);            
+        }
+
+        if ($subTopic == 'dps/103/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Nebula state", 0);
+
+            SetValue($this->GetIdForIdent('StateNebula'), $Buffer['Payload']);            
         }
     }
 }
