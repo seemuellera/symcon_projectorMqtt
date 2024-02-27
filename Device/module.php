@@ -177,7 +177,14 @@ class ProjectorMQTTDevice extends IPSModule
         switch ($ident) {
 		
 			case "State":
-				$this->MqttSet('dps/20/command', string($value));
+                if ($value) {
+				
+                    $this->MqttSet('dps/20/command', 'true');
+                }
+                else {
+
+                    $this->MqttSet('dps/20/command', 'false');
+                }
 				SetValue($this->GetIDForIdent($ident), $value);
 				break;
 			default:
