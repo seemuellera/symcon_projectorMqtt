@@ -13,7 +13,7 @@ class ProjectorMQTTDevice extends IPSModule
     {
         //Never delete this line!
         parent::Create();
-        $this->RegisterPropertyInteger('MQTTServer', 19143);
+        $this->ConnectParent('{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}');
         $this->RegisterPropertyString('MQTTBaseTopic', 'tuya');
         $this->RegisterPropertyString('MQTTTopic', '');
 
@@ -39,7 +39,5 @@ class ProjectorMQTTDevice extends IPSModule
     public function getDeviceInfo()
     {
 
-        $stateGlobal = MQTT_GetRetainedMessage($this->ReadPropertyInteger('MQTTServer'), $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/dps/20/state');
-        print_r($stateGlobal);
     }
 }
