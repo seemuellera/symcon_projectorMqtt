@@ -1,0 +1,15 @@
+{
+    "id": "{587A854F-4CE2-4851-8A27-559B7CE1EC74}",
+    "name": "ProjectorMQTTDevice",
+    "type": 3,
+    "vendor": "",
+    "aliases": [
+        "ProjectorMQTT Device"
+    ],
+    "parentRequirements": [
+        "{C6D2AEB3-6E1F-4B2E-8E69-3A1A00246850}"
+    ],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "PROJMQTT"
+}

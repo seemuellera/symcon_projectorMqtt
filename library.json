@@ -1,0 +1,12 @@
+{
+    "id": "{024ACC77-6804-4DE1-9E90-E299E52E750A}",
+    "author": "Andreas Seemueller",
+    "name": "ProjectorMQTT",
+    "url": "https://github.com/seemuellera/symcon_projectorMqtt",
+    "compatibility": {
+        "version": "6.1"
+    },
+    "version": "1.0",
+    "build": 0,
+    "date": 0
+}
