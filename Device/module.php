@@ -20,7 +20,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterVariableBoolean("State", "State", "~Switch");
         $this->RegisterVariableBoolean("StateNebula", "Nebula", "~Switch");
         $this->RegisterVariableBoolean("StateStars", "Stars", "~Switch");
-        $this->RegisterVariableBoolean("Online", "Online", "~Alarm");
+        $this->RegisterVariableBoolean("Online", "Online", "~Alert");
     }
 
     public function ApplyChanges()
