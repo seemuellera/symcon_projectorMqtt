@@ -214,11 +214,11 @@ class ProjectorMQTTDevice extends IPSModule
                 SetValue($this->GetIDForIdent($ident), $value);
                 break;
             case "IntensityStars":
-                $this->MqttSet('dps/22/command', $value);
+                $this->MqttSet('dps/22/command', (string)$value);
                 SetValue($this->GetIDForIdent($ident), $value);
                 break; 
             case "IntensityRotation":
-                $this->MqttSet('dps/22/command', $value);
+                $this->MqttSet('dps/22/command', (string)$value);
                 SetValue($this->GetIDForIdent($ident), $value);
                 break;       
 			default:
