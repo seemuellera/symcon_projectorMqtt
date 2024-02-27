@@ -41,6 +41,8 @@ class ProjectorMQTTDevice extends IPSModule
         
         $this->SendDebug('Filter ', '.*' . $Filter . '.*', 0);
         $this->SetReceiveDataFilter('.*' . $Filter . '.*');
+
+        $this->EnableAction('State');
                 
         if (($this->HasActiveParent()) && (IPS_GetKernelRunlevel() == KR_READY)) {
             
@@ -183,7 +185,7 @@ class ProjectorMQTTDevice extends IPSModule
 		}
     }
 
-    public function MqttSet($topic, $payload) {
+    protected function MqttSet($topic, $payload) {
 
         $Data['DataID'] = '{043EA491-0325-4ADD-8FC2-A30C8EEB4D3F}';
         $Data['PacketType'] = 3;
