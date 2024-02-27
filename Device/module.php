@@ -77,5 +77,9 @@ class ProjectorMQTTDevice extends IPSModule
         $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/';
         $subTopic = str_replace($baseTopic, "", $Buffer['Topic']);
         $this->SendDebug('MQTT Subtopic', $subTopic, 0);
+
+        $topicLookupTable = json_decode($this->ReadAttributeString('TopicLookupTable'), true);
+        $variableIdent = $topicLookupTable($subTopic);
+        $this->SendDebug('Target variable ident', $variableIdent, 0);
     }
 }
