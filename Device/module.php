@@ -276,6 +276,8 @@ class ProjectorMQTTDevice extends IPSModule
        $HSL['S'] = $S; 
        $HSL['V'] = $V; 
 
+       $this->SendDebug('COLOR CONVERSION RGB->HSV',"R: $R G: $G B: $B / H: $H S: $S V: $V", 0);
+
        return $HSL; 
     } 
 
