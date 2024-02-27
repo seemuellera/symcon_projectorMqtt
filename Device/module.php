@@ -23,6 +23,9 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterVariableBoolean("Online", "Online", "~Alert");
         $this->RegisterVariableInteger("IntensityStars", "Intensity Stars", "~Intensity.100");
         $this->RegisterVariableInteger("IntensityRotation", "Intensity Rotation", "~Intensity.100");
+        $this->RegisterVariableInteger("IntensityNebula", "Intensity Nebula", "~Intensity.100");
+        $this->RegisterVariableInteger("IntensityContrast", "Intensity Contrast", "~Intensity.100");
+        $this->RegisterVariableInteger("ColorNebula", "Color Nebula", "~HexColor");
     }
 
     public function ApplyChanges()
@@ -123,6 +126,17 @@ class ProjectorMQTTDevice extends IPSModule
 
             $intensity = round($Buffer['Payload'] / 10);
             SetValue($this->GetIdForIdent('IntensityRotation'), $intensity);            
+        }
+
+        if ($subTopic == 'dps/24/state') {
+
+            $this->SendDebug('MQTT Subtopic Processing', "Color handling", 0);
+
+            $hexHue = substr($Buffer['Payload'],0,4);
+            $hexSaturation = substr($Buffer['Payload'],4,4);
+            $hexValue = substr($Buffer['Payload'],8,4);
+
+            $this->SendDebug('MQTT Subtopic Processing', "Hue: $hexVue Saturation: $hexSaturation Value: $hexValue", 0);
         }
     }
 }
