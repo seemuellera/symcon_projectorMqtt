@@ -74,14 +74,8 @@ class ProjectorMQTTDevice extends IPSModule
         $this->SendDebug('MQTT Payload', $Buffer['Payload'], 0);
 
         $Payload = json_decode($Buffer['Payload'], true);
-
-        if (is_array($Payload)) {
-
-            $allConfiguredTopics = $this->getConfigTopics();
-            $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/';
-            $subTopic = str_replace($baseTopic, "", $Buffer['Topic']);
-
-            $this->SendDebug('MQTT TOPIC', $subTopic, 0);
-        }
+        $baseTopic = $this->ReadPropertyString('MQTTBaseTopic') . '/' . $this->ReadPropertyString('MQTTTopic') . '/';
+        $subTopic = str_replace($baseTopic, "", $Buffer['Topic']);
+        $this->SendDebug('MQTT Subtopic', $subTopic, 0);
     }
 }
