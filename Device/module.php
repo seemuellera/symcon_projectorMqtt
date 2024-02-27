@@ -79,7 +79,7 @@ class ProjectorMQTTDevice extends IPSModule
             $variableIdent = $topicLookupTable[$Buffer['Topic']];
             $this->SendDebug('Target variable ident', $variableIdent, 0);
 
-            $this->SetValue($this->GetIdForIdent($variableIdent), $Buffer['Payload']);
+            SetValue($this->GetIdForIdent($variableIdent), $Buffer['Payload']);
         }
     }
 }
