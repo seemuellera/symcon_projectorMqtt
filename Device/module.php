@@ -47,6 +47,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->EnableAction('StateStars');
         $this->EnableAction('IntensityStars');
         $this->EnableAction('IntensityRotation');
+        $this->EnableAction('ColorNebula');
                 
         if (($this->HasActiveParent()) && (IPS_GetKernelRunlevel() == KR_READY)) {
             
