@@ -26,6 +26,7 @@ class ProjectorMQTTDevice extends IPSModule
         $this->RegisterVariableInteger("IntensityNebula", "Intensity Nebula", "~Intensity.100",7);
         $this->RegisterVariableInteger("SaturationNebula", "SaturationNebula", "~Intensity.100",8);
         $this->RegisterVariableInteger("ColorNebula", "Color Nebula", "~HexColor",6);
+        $this->RegisterVariableString("ColorTuya", "Color Tuya Encoded", "",9);
     }
 
     public function ApplyChanges()
@@ -140,6 +141,7 @@ class ProjectorMQTTDevice extends IPSModule
         if ($subTopic == 'dps/24/state') {
 
             $this->SendDebug('MQTT Subtopic Processing', "Color handling", 0);
+            SetValue($this->GetIdForIdent('colorTuya'), $Buffer['Payload']);  
 
             $hexHue = substr($Buffer['Payload'],0,4);
             $hexSaturation = substr($Buffer['Payload'],4,4);
