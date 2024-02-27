@@ -136,7 +136,7 @@ class ProjectorMQTTDevice extends IPSModule
             $hexSaturation = substr($Buffer['Payload'],4,4);
             $hexValue = substr($Buffer['Payload'],8,4);
 
-            $this->SendDebug('MQTT Subtopic Processing', "Hue: $hexVue Saturation: $hexSaturation Value: $hexValue", 0);
+            $this->SendDebug('MQTT Subtopic Processing', "Hue: $hexHue Saturation: $hexSaturation Value: $hexValue", 0);
         }
     }
 }
