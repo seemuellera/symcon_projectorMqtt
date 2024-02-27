@@ -137,6 +137,32 @@ class ProjectorMQTTDevice extends IPSModule
             $hexValue = substr($Buffer['Payload'],8,4);
 
             $this->SendDebug('MQTT Subtopic Processing', "Hue: $hexHue Saturation: $hexSaturation Value: $hexValue", 0);
+
+            $hue = hexdec($hexHue);
+            $sat = hexdec($hexSaturation);
+            $val = hexdec($hexValue);
+
+            $rgb = array(0,0,0);
+            //calc rgb for 100% SV, go +1 for BR-range
+            for($i=0;$i<4;$i++) {
+                if (abs($hue - $i*120)<120) {
+                $distance = max(60,abs($hue - $i*120));
+                $rgb[$i % 3] = 1 - (($distance-60) / 60);
+                }
+            }
+
+            //desaturate by increasing lower levels
+            $max = max($rgb);
+            $factor = 255 * ($val/100);
+
+            for($i=0;$i<3;$i++) {
+                //use distance between 0 and max (1) and multiply with value
+                $rgb[$i] = round(($rgb[$i] + ($max - $rgb[$i]) * (1 - $sat/100)) * $factor);
+            }
+
+            $hexColor = sprintf('%02X%02X%02X', $rgb[0], $rgb[1], $rgb[2]);
+            
+            $this->SendDebug('MQTT Subtopic Processing', "Color Hex: $hexColor", 0);
         }
     }
 }
