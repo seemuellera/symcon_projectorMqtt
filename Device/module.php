@@ -228,7 +228,7 @@ class ProjectorMQTTDevice extends IPSModule
                 $oldColor = GetValue($this->GetIdForIdent('ColorTuya'));
                 $h = substr($oldColor,0,4);
                 $v = substr($oldColor,8,4);
-                $s = sprintf('%04x', $value);
+                $s = sprintf('%04x', $value * 10);
                 $newColor = $h . $s . $v;
                 $this->MqttSet('dps/24/command', $newColor);
                 break;
@@ -236,7 +236,7 @@ class ProjectorMQTTDevice extends IPSModule
                 $oldColor = GetValue($this->GetIdForIdent('ColorTuya'));
                 $h = substr($oldColor,0,4);
                 $s = substr($oldColor,4,4);
-                $v = sprintf('%04x', $value);
+                $v = sprintf('%04x', $value * 10);
                 $newColor = $h . $s . $v;
                 $this->MqttSet('dps/24/command', $newColor);
                 break;
