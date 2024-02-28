@@ -225,6 +225,20 @@ class ProjectorMQTTDevice extends IPSModule
                 $this->MqttSet('dps/24/command', $colorTuya);
                 break;
             case "SaturationNebula":
+                $oldColor = GetValue($this->GetIdForIdent('ColorTuya'));
+                $h = substr($oldColor,0,4);
+                $v = substr($oldColor,8,4);
+                $s = sprintf('%04x', $value);
+                $newColor = $h . $s . $v;
+                $this->MqttSet('dps/24/command', $newColor);
+                break;
+            case "IntensityNebula":
+                $oldColor = GetValue($this->GetIdForIdent('ColorTuya'));
+                $h = substr($oldColor,0,4);
+                $s = substr($oldColor,4,4);
+                $v = sprintf('%04x', $value);
+                $newColor = $h . $s . $v;
+                $this->MqttSet('dps/24/command', $newColor);
                 break;
 			default:
 				$this->LogMessage("Invalid Ident: $ident", KL_ERROR);
