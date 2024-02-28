@@ -141,7 +141,7 @@ class ProjectorMQTTDevice extends IPSModule
         if ($subTopic == 'dps/24/state') {
 
             $this->SendDebug('MQTT Subtopic Processing', "Color handling", 0);
-            SetValue($this->GetIdForIdent('colorTuya'), $Buffer['Payload']);  
+            SetValue($this->GetIdForIdent('ColorTuya'), $Buffer['Payload']);  
 
             $hexHue = substr($Buffer['Payload'],0,4);
             $hexSaturation = substr($Buffer['Payload'],4,4);
