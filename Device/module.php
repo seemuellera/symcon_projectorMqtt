@@ -222,7 +222,10 @@ class ProjectorMQTTDevice extends IPSModule
             case "ColorNebula":
                 $colorTuya = $this->decToTuya($value);
                 $this->SendDebug('COLOR CONVERSION',"dec: $value hex: $colorTuya", 0);
-                break;     
+                $this->MqttSet('dps/24/command', $colorTuya);
+                break;
+            case "SaturationNebula":
+                break;
 			default:
 				$this->LogMessage("Invalid Ident: $ident", KL_ERROR);
 		}
